@@ -51,12 +51,4 @@ class GollumEvent < Event
 [#{repo_name}] <#{sender_link}|#{sender_name}> #{action} the <#{page_link}|#{page_name}> wiki of <#{repo_url}|#{repo_name}>
 EOT
   end
-
-=begin
-  def wiki_change_message(sender_name, sender_link, action, page_name, page_link, repo_name, repo_url)
-    <<EOT
-[#{repo_name}] <#{sender_link}|#{sender_name}> #{action} the <#{page_link}|#{page_name}> wiki of <#{repo_url}|#{repo_name}>
-EOT
-  end
-=end
 end

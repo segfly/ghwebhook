@@ -2,20 +2,18 @@ require 'sinatra'
 require_relative './request_parser'
 require_relative './slack_notifier'
 
-SLACK_NAME=ENV['SLACK_NAME']
-SLACK_TOKEN=ENV['SLACK_TOKEN']
-SLACK_CHANNEL=ENV['SLACK_CHANNEL']
-SLACK_USERNAME=ENV['SLACK_USERNAME'] || 'GitHub Wiki'
+SLACK_WEB_HOOK_URL=ENV['SLACK_WEB_HOOK_URL']
 
 get '/' do
   "ok"
 end
 
 post '/' do
+  channel = params['channel']
   event = RequestParser.new(request).parse
   if event
     puts "Sending slack message. event:#{request.env['HTTP_X_GITHUB_EVENT']}"
-    SlackNotifier.new(SLACK_NAME, SLACK_TOKEN, SLACK_CHANNEL, SLACK_USERNAME).send_to_slack(event.build_message)
+    SlackNotifier.new(SLACK_WEB_HOOK_URL).send_to_slack(event.build_message, channel)
   else
     puts "Unsupported event. event:#{request.env['HTTP_X_GITHUB_EVENT']}"
   end
